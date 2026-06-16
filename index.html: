@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CivicMind AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card-bg: #ffffff;
+      --accent: #3b82f6;
+      --accent-soft: #e0edff;
+      --text: #111827;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    header {
+      padding: 1.5rem 2rem;
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.4rem;
+    }
+
+    header span {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .tabs {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .tab-btn {
+      padding: 0.5rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fff;
+      font-size: 0.85rem;
+      cursor: pointer;
+      color: var(--muted);
+    }
+
+    .tab-btn.active {
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    main {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 0 1rem 2rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+      border: 1px solid var(--border);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+    }
+
+    .card p.description {
+      margin-top: 0;
+      margin-bottom: 1.25rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.3fr);
+      gap: 1.5rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 0.25rem;
+      color: var(--muted);
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.55rem 0.7rem;
+      border-radius: 0.6rem;
+      border: 1px solid var(--border);
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent-soft);
+    }
+
+    button.primary {
+      margin-top: 0.75rem;
+      padding: 0.6rem 1.2rem;
+      border-radius: 999px;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    button.primary:hover {
+      background: #2563eb;
+    }
+
+    .result-card {
+      border-radius: 0.9rem;
+      border: 1px solid var(--border);
+      padding: 1rem;
+      background: #f9fafb;
+      font-size: 0.9rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .badge.high {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .badge.medium {
+      background: #fef3c7;
+      color: #b45309;
+    }
+
+    .badge.low {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin-top: 0.4rem;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+      padding-bottom: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>CivicMind AI</h1>
+      <span>Undergraduate Track · AI for Life, Learning & Work</span>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="environment">Environment</button>
+      <button class="tab-btn" data-tab="community">Community Help</button>
+      <button class="tab-btn" data-tab="productivity">Productivity</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="card" id="environment-card">
+      <h2>Environment Advisor</h2>
+      <p class="description">
+        Turn local environmental signals into simple, actionable guidance for your day.
+      </p>
+      <div class="grid">
+        <div>
+          <label>Location</label>
+          <input id="env-location" placeholder="e.g., Gloucester, MA" />
+
+          <label style="margin-top:0.75rem;">Concern</label>
+          <select id="env-concern">
+            <option value="">Select a concern</option>
+            <option value="heat">Heat</option>
+            <option value="air">Air Quality</option>
+            <option value="storm">Storm</option>
+          </select>
+
+          <button class="primary" onclick="handleEnvironment()">Analyze</button>
+        </div>
+        <div id="env-result">
+          <div class="muted">
+            Choose a location and concern to see risk level and recommendations.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="community-card" style="display:none;">
+      <h2>Community Help Navigator</h2>
+      <p class="description">
+        Find relevant support resources for mental health, food, tutoring, and more.
+      </p>
+      <div class="grid">
+        <div>
+          <label>Need type</label>
+          <select id="comm-need">
+            <option value="">Select a need</option>
+            <option value="mental">Mental health support</option>
+            <option value="food">Food assistance</option>
+            <option value="tutoring">Tutoring / academic help</option>
+            <option value="housing">Housing support</option>
+          </select>
+
+          <button class="primary" onclick="handleCommunity()">Find resources</button>
+        </div>
+        <div id="comm-result">
+          <div class="muted">
+            Select a need type to see curated resources and contact info.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="productivity-card" style="display:none;">
+      <h2>Productivity Companion</h2>
+      <p class="description">
+        Turn a messy task list into a prioritized plan based on time and energy.
+      </p>
+      <div class="grid">
+        <div>
+          <label>Tasks (one per line)</label>
+          <textarea id="prod-tasks" placeholder="Finish lab report&#10;Review lecture notes&#10;Email professor"></textarea>
+
+          <label style="margin-top:0.75rem;">Time available (minutes)</label>
+          <input id="prod-time" type="number" min="10" value="60" />
+
+          <label style="margin-top:0.75rem;">Energy level</label>
+          <select id="prod-energy">
+            <option value="low">Low</option>
+            <option value="medium" selected>Medium</option>
+            <option value="high">High</option>
+          </select>
+
+          <button class="primary" onclick="handleProductivity()">Prioritize</button>
+        </div>
+        <div id="prod-result">
+          <div class="muted">
+            Add tasks, time, and energy level to get a prioritized “do this next” list.
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    CivicMind AI · Synthetic data · Not medical or legal advice · Designed for responsible, community‑scale decision support.
+  </footer>
+
+  <script>
+    // --- Tab switching ---
+    const tabs = document.querySelectorAll(".tab-btn");
+    const cards = {
+      environment: document.getElementById("environment-card"),
+      community: document.getElementById("community-card"),
+      productivity: document.getElementById("productivity-card")
+    };
+
+    tabs.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabs.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const tab = btn.dataset.tab;
+        Object.keys(cards).forEach(key => {
+          cards[key].style.display = key === tab ? "block" : "none";
+        });
+      });
+    });
+
+    // --- Synthetic environment data ---
+    const environmentData = {
+      heat: {
+        risk: "High",
+        recommendation: "Limit outdoor activity between 12–4 PM, hydrate often, seek shade.",
+        explanation: "Based on synthetic heat patterns for your region."
+      },
+      air: {
+        risk: "Medium",
+        recommendation: "Avoid prolonged outdoor exposure, consider a mask, keep windows closed.",
+        explanation: "Based on synthetic air quality levels."
+      },
+      storm: {
+        risk: "Low",
+        recommendation: "Carry an umbrella, check local alerts, avoid coastal areas during peak winds.",
+        explanation: "Based on synthetic storm forecasts."
+      }
+    };
+
+    function riskBadgeClass(risk) {
+      const r = risk.toLowerCase();
+      if (r === "high") return "badge high";
+      if (r === "medium") return "badge medium";
+      return "badge low";
+    }
+
+    function handleEnvironment() {
+      const location = document.getElementById("env-location").value.trim() || "your area";
+      const concern = document.getElementById("env-concern").value;
+      const container = document.getElementById("env-result");
+
+      if (!concern) {
+        container.innerHTML = '<div class="muted">Please select a concern to analyze.</div>';
+        return;
+      }
+
+      const data = environmentData[concern];
+      container.innerHTML = `
+        <div class="result-card">
+          <div class="${riskBadgeClass(data.risk)}">Risk: ${data.risk}</div>
+          <p><strongToday in ${location}:</strong> ${data.recommendation}</p>
+          <p class="muted">${data.explanation} · Synthetic dataset · Not a real forecast.</p>
+        </div>
+      `;
+    }
+
+    // --- Synthetic community resources ---
+    const communityResources = {
+      mental: [
+        {
+          name: "Campus Counseling Center",
+          type: "On‑campus",
+          contact: "counseling@university.edu",
+          note: "Short‑term counseling, workshops, and referrals."
+        },
+        {
+          name: "988 Suicide & Crisis Lifeline",
+          type: "Hotline",
+          contact: "Dial 988",
+          note: "24/7 free and confidential support."
+        }
+      ],
+      food: [
+        {
+          name: "Student Food Pantry",
+          type: "On‑campus",
+          contact: "pantry@university.edu",
+          note: "Weekly distribution of groceries for students."
+        },
+        {
+          name: "Local Community Kitchen",
+          type: "Nonprofit",
+          contact: "communitykitchen@example.org",
+          note: "Free meals on select days."
+        }
+      ],
+      tutoring: [
+        {
+          name: "Academic Success Center",
+          type: "On‑campus",
+          contact: "success@university.edu",
+          note: "Tutoring, study skills, and peer mentoring."
+        },
+        {
+          name: "Peer Study Group",
+          type: "Student‑led",
+          contact: "Discord / WhatsApp group",
+          note: "Collaborative study sessions for key courses."
+        }
+      ],
+      housing: [
+        {
+          name: "Housing Office",
+          type: "On‑campus",
+          contact: "housing@university.edu",
+          note: "Support with dorms, leases, and emergencies."
+        },
+        {
+          name: "Local Housing Hotline",
+          type: "Hotline",
+          contact: "1‑800‑HOUSING",
+          note: "Information on shelters and tenant rights."
+        }
+      ]
+    };
+
+    function handleCommunity() {
+      const need = document.getElementById("comm-need").value;
+      const container = document.getElementById("comm-result");
+
+      if (!need) {
+        container.innerHTML = '<div class="muted">Please select a need type.</div>';
+        return;
+      }
+
+      const resources = communityResources[need] || [];
+      if (!resources.length) {
+        container.innerHTML = '<div class="muted">No resources found in this synthetic dataset.</div>';
+        return;
+      }
+
+      const items = resources.map(r => `
+        <li style="margin-bottom:0.6rem;">
+          <strong>${r.name}</strong> · <span class="muted">${r.type}</span><br/>
+          <span>${r.contact}</span><br/>
+          <span class="muted">${r.note}</span>
+        </li>
+      `).join("");
+
+      container.innerHTML = `
+        <div class="result-card">
+          <p><strongSuggested resources:</strong></p>
+          <ul style="padding-left:1.1rem; margin-top:0.4rem;">
+            ${items}
+          </ul>
+          <p class="muted">Synthetic resource list · Always verify details with official channels.</p>
+        </div>
+      `;
+    }
+
+    // --- Productivity reasoning ---
+    function handleProductivity() {
+      const tasksRaw = document.getElementById("prod-tasks").value.trim();
+      const time = parseInt(document.getElementById("prod-time").value, 10) || 60;
+      const energy = document.getElementById("prod-energy").value;
+      const container = document.getElementById("prod-result");
+
+      if (!tasksRaw) {
+        container.innerHTML = '<div class="muted">Add at least one task to prioritize.</div>';
+        return;
+      }
+
+      const tasks = tasksRaw.split("\n").map(t => t.trim()).filter(Boolean);
+      if (!tasks.length) {
+        container.innerHTML = '<div class="muted">Add at least one task to prioritize.</div>';
+        return;
+      }
+
+      // Simple heuristic: shorter tasks + urgent keywords first when energy is low,
+      // deeper tasks when energy is high.
+      const scored = tasks.map(t => {
+        const lengthScore = t.length;
+        const urgent = /exam|deadline|lab|assignment|project/i.test(t) ? 1 : 0;
+        let score = urgent * 3;
+
+        if (energy === "low") {
+          score += lengthScore < 25 ? 2 : 0;
+        } else if (energy === "medium") {
+          score += 1;
+        } else {
+          score += lengthScore > 25 ? 2 : 0;
+        }
+
+        return { task: t, score };
+      });
+
+      scored.sort((a, b) => b.score - a.score);
+
+      const items = scored.map((item, idx) => `
+        <li style="margin-bottom:0.4rem;">
+          <strong>${idx === 0 ? "Do first:" : "Next:"}</strong> ${item.task}
+        </li>
+      `).join("");
+
+      container.innerHTML = `
+        <div class="result-card">
+          <p><strongPrioritized plan (${time} minutes, ${energy} energy):</strong></p>
+          <ul style="padding-left:1.1rem; margin-top:0.4rem;">
+            ${items}
+          </ul>
+          <p class="muted">
+            Simple heuristic based on task length, urgency keywords, and energy level.
+            This is a suggestion, not a guarantee of optimal productivity.
+          </p>
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>

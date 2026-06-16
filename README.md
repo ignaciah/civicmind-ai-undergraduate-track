@@ -192,4 +192,38 @@ CivicMind AI is built with responsibility at its core:
 MIT License (or your preferred license)
 
 ---
+🧱 1. Project Scaffold 
+
+`
+civicmind-ai/
+│
+├── frontend/
+│   ├── pages/
+│   │   ├── index.js
+│   │   ├── environment.js
+│   │   ├── community.js
+│   │   └── productivity.js
+│   ├── components/
+│   │   ├── Layout.js
+│   │   ├── Card.js
+│   │   └── Navbar.js
+│   └── styles/
+│       └── globals.css
+│
+├── backend/
+│   ├── api/
+│   │   ├── environment.js
+│   │   ├── community.js
+│   │   └── productivity.js
+│   ├── reasoning/
+│   │   ├── engine.js
+│   │   └── rules.js
+│   └── server.js
+│
+├── data/
+│   ├── environment.json
+│   ├── resources.json
+│   └── sample_tasks.json
+│
+└── README.md
 

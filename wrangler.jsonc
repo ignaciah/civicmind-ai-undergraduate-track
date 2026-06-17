@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "civicmind-ai-undergraduate-track",
+  "compatibility_date": "2026-06-17",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "Frontend pages"
+  },
+  "compatibility_flags": [
+    "nodejs_compat"
+  ]
+}
